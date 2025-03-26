@@ -1,0 +1,20 @@
+keras
+numpy
+scipy
+scikit-image
+deskew
+tensorflow
+textract
+pdf2image
+keras
+matplotlib
+pytesseract # along with: sudo apt install tesseract-ocr -y
+opencv-python
+pillow
+imutils
+xmltodict
+nltk
+bs4
+requests
+geotext
+spacy

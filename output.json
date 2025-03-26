@@ -1,0 +1,36 @@
+[
+    {
+        "file_path": "test\\dummy-passport-ukraine.jpg",
+        "pii_class": "Ukrainian Passport",
+        "score": 14,
+        "country_of_origin": "Ukraine",
+        "faces": 1,
+        "identifiers": [
+            "190803330521"
+        ],
+        "emails": [],
+        "phone_numbers": [
+            "1908033305",
+            "3052125257"
+        ],
+        "addresses": [
+            "Opcan",
+            "Uyxpaina"
+        ]
+    },
+    {
+        "file_path": "test\\dummy-passport-ukraine_redacted.jpg",
+        "pii_class": "Ukrainian Passport",
+        "score": 28,
+        "country_of_origin": "Ukraine",
+        "faces": 1,
+        "identifiers": [
+            "190803330521"
+        ],
+        "emails": [],
+        "phone_numbers": [
+            "1908033305"
+        ],
+        "addresses": []
+    }
+]

@@ -1,6 +1,6 @@
-# Octopii: PII Detection and Redaction Tool
+# AnonyMate: PII Detection and Redaction Tool
 
-Octopii is a comprehensive tool designed to detect and redact Personally Identifiable Information (PII) from various document formats, including images and PDFs. This repository encompasses two primary scripts:
+AnonyMate is a comprehensive tool designed to detect and redact Personally Identifiable Information (PII) from various document formats, including images and PDFs. This repository encompasses two primary scripts:
 
 - **`octopii.py`**: Scans documents to detect PII and generates a report (`output.json`).
 - **`redact.py`**: Utilizes the detection report to redact identified PII from the original documents.
@@ -20,9 +20,4 @@ Octopii is a comprehensive tool designed to detect and redact Personally Identif
   - Images: JPG, PNG
   - Documents: PDF, DOCX, TXT
 
-## Installation
 
-To set up the environment, install the required dependencies:
-
-```bash
-pip install -r requirements.txt

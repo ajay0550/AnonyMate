@@ -10,7 +10,7 @@ from PIL import Image, ImageTk
 class OctoPIIApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("OctoPII - PII Detection & Redaction Tool")
+        self.root.title("AnonyMate - PII Detection & Redaction Tool")
         self.root.geometry("900x900")
         self.root.configure(bg="#f0f0f0")
 
@@ -30,7 +30,7 @@ class OctoPIIApp:
         header_frame = tk.Frame(self.root, bg="#2c3e50", padx=10, pady=10)
         header_frame.pack(fill=tk.X)
 
-        title_label = tk.Label(header_frame, text="OctoPII", font=("Arial", 20, "bold"), fg="white", bg="#2c3e50")
+        title_label = tk.Label(header_frame, text="AnonyMate", font=("Arial", 20, "bold"), fg="white", bg="#2c3e50")
         title_label.pack(side=tk.LEFT)
 
         subtitle_label = tk.Label(header_frame, text="PII Detection & Redaction Tool", font=("Arial", 12), fg="white", bg="#2c3e50")

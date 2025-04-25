@@ -1,76 +1,71 @@
-AnonyMate - PII Detection & Redaction Tool
-AnonyMate is a Python-based application that detects and redacts Personally Identifiable Information (PII) from documents such as images and PDFs. It uses Optical Character Recognition (OCR) and rule-based techniques to identify and obscure sensitive data such as ID numbers, phone numbers, email addresses, addresses, and faces.
+# AnonyMate - PII Detection & Redaction Tool
 
-Features
-Detects PII in image and PDF files
+**AnonyMate** is a Python-based application that detects and redacts Personally Identifiable Information (PII) from documents such as images and PDFs. It uses Optical Character Recognition (OCR) and rule-based techniques to identify and obscure sensitive data such as ID numbers, phone numbers, email addresses, addresses, and faces.
 
-Redacts (masks) identified PII using OCR
+## Features
 
-Utilizes regular expressions, keyword matching, and face detection
+- Detects PII in image and PDF files  
+- Redacts (masks) identified PII using OCR  
+- Utilizes regular expressions, keyword matching, and face detection  
+- Generates a structured output file (`output.json`) containing the detection results  
+- Includes a modern Tkinter-based GUI with preview functionality  
 
-Generates a structured output file (output.json) containing the detection results
+## Dependencies
 
-Includes a modern Tkinter-based GUI with preview functionality
+Install required Python packages:
 
-Dependencies
-Before running the project, install the required Python packages:
-
-bash
-Copy
-Edit
+```bash
 pip install -r requirements.txt
-Additional Installation
-Tesseract OCR is required for text extraction.
+```
 
-Windows: Download from Tesseract OCR GitHub
+# Additional Installation
+Tesseract OCR is required.
+
+Windows: Download and install from Tesseract OCR GitHub
 
 Linux:
-
-bash
-Copy
-Edit
+```
 sudo apt install tesseract-ocr
-Ensure Tesseract is properly added to your system PATH and its tessdata directory contains the required language files.
+```
+Ensure Tesseract is added to your system PATH and the tessdata folder contains necessary languages.
 
-Project Structure
-graphql
-Copy
-Edit
+
+## Project Structure
+
 AnonyMate/
-│
-├── octopii.py           # Main PII detection logic
-├── redact.py            # Redacts PII from documents based on detection results
-├── octopii_gui.py       # GUI interface for file upload, scan, and preview
-├── definitions.json     # Rule definitions for PII classification
-├── output.json          # Generated output containing detected PII
-├── image_utils.py       # OCR and image handling helpers
-├── text_utils.py        # Text processing and regex matching
-├── file_utils.py        # File handling utilities
-├── requirements.txt     # Required Python packages
-How to Use
-Step 1: Launch the GUI
-bash
-Copy
-Edit
+├── octopii.py           # PII detection script
+├── redact.py            # Redacts detected PII
+├── octopii_gui.py       # User-friendly GUI interface
+├── definitions.json     # Keyword definitions for classification
+├── output.json          # Output file with detection results
+├── image_utils.py       # OCR and image processing
+├── text_utils.py        # Regex and text-based scanning
+├── file_utils.py        # File handling helpers
+├── requirements.txt     # Dependency list
+
+## How to Use
+1. Launch the GUI
+
+```
 python octopii_gui.py
-Step 2: Upload File
-Choose a document (image or PDF) from your system.
 
-Step 3: Scan for PII
-Click the "Scan for PII" button to detect sensitive information. Results are stored in output.json and displayed in the interface.
+```
 
-Step 4: Redact PII
-Click the "Redact PII" button. The application will generate and display the redacted version of the uploaded file.
+2. Upload a File
+Upload an image or PDF file using the GUI.
 
-Step 5: View Results
-Both original and redacted images are previewed in the GUI. Redacted files are saved in the same directory.
+3. Scan for PII
+Click Scan for PII. Detected data will be shown in the GUI and saved to output.json.
 
-Notes
-Multiple languages are supported for OCR. Ensure the corresponding .traineddata files are available in your Tesseract installation's tessdata folder.
+4. Redact PII
+Click Redact PII. A new image will be generated with sensitive data blacked out.
 
-You can optionally use the webhook feature by providing a URL in the GUI. This allows results to be pushed to an external server.
+5. View Results
+Preview both original and redacted images in the GUI.
 
-Contributors
-[Your Name]
+## Notes
 
-[Teammate's Name]
+Multiple languages are supported via Tesseract (e.g. English, Hindi, Tamil, etc.). Ensure the corresponding .traineddata files exist in your Tesseract installation's tessdata folder.
+
+Webhook support: Provide a webhook URL to receive the output as JSON remotely.
+

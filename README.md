@@ -1,115 +1,76 @@
-# AnonyMate: PII Detection and Redaction Tool
+AnonyMate - PII Detection & Redaction Tool
+AnonyMate is a Python-based application that detects and redacts Personally Identifiable Information (PII) from documents such as images and PDFs. It uses Optical Character Recognition (OCR) and rule-based techniques to identify and obscure sensitive data such as ID numbers, phone numbers, email addresses, addresses, and faces.
 
-AnonyMate is a comprehensive tool designed to detect and redact Personally Identifiable Information (PII) from various document formats, including images and PDFs. This repository encompasses two primary scripts:
+Features
+Detects PII in image and PDF files
 
-- **`octopii.py`**: Scans documents to detect PII and generates a report (`output.json`).
-- **`redact.py`**: Utilizes the detection report to redact identified PII from the original documents.
+Redacts (masks) identified PII using OCR
 
-## Features
+Utilizes regular expressions, keyword matching, and face detection
 
-- **PII Detection**: Identifies sensitive information such as:
-  - Names
-  - Addresses
-  - Phone numbers
-  - Email addresses
-  - Identification numbers
+Generates a structured output file (output.json) containing the detection results
 
-- **PII Redaction**: Obscures detected PII in documents to ensure data privacy.
+Includes a modern Tkinter-based GUI with preview functionality
 
-- **Supported Formats**:
-  - Images: JPG, PNG
-  - Documents: PDF, DOCX, TXT
- 
-    
-Usage
-Installing dependencies
-Install all dependencies via pip install -r requirements.txt.
-Install the Tesseract helper locally via sudo apt install tesseract-ocr -y on Ubuntu or sudo pacman -Syu tesseract on Arch Linux.
-Install Spacy language definitions locally via python -m spacy download en_core_web_sm.
-Once you've installed the above, you're all set.
+Dependencies
+Before running the project, install the required Python packages:
 
-Running
-To run Octopii, type
+bash
+Copy
+Edit
+pip install -r requirements.txt
+Additional Installation
+Tesseract OCR is required for text extraction.
 
-python3 octopii.py <location to scan>
-where <location to scan> is a file or a directory.
+Windows: Download from Tesseract OCR GitHub
 
-Octopii currently supports local scanning via filesystem path, S3 URLs and Apache open directory listings. You can also provide individual image URLs or files as an argument.
+Linux:
 
-Example
-We've provided a dummy-pii/ folder containing sample PII for you to test Octopii with. Pass it as an argument and you'll get the following output
+bash
+Copy
+Edit
+sudo apt install tesseract-ocr
+Ensure Tesseract is properly added to your system PATH and its tessdata directory contains the required language files.
 
-owais@artemis ~ $ python3 octopii.py dummy-pii/
+Project Structure
+graphql
+Copy
+Edit
+AnonyMate/
+│
+├── octopii.py           # Main PII detection logic
+├── redact.py            # Redacts PII from documents based on detection results
+├── octopii_gui.py       # GUI interface for file upload, scan, and preview
+├── definitions.json     # Rule definitions for PII classification
+├── output.json          # Generated output containing detected PII
+├── image_utils.py       # OCR and image handling helpers
+├── text_utils.py        # Text processing and regex matching
+├── file_utils.py        # File handling utilities
+├── requirements.txt     # Required Python packages
+How to Use
+Step 1: Launch the GUI
+bash
+Copy
+Edit
+python octopii_gui.py
+Step 2: Upload File
+Choose a document (image or PDF) from your system.
 
-Searching for PII in dummy-pii/dummy-drivers-license-nebraska-us.jpg
-{
-    "file_path": "dummy-pii/dummy-drivers-license-nebraska-us.jpg",
-    "pii_class": "Nebraska Driver's License",
-    "country_of_origin": "United States",
-    "faces": 1,
-    "identifiers": [],
-    "emails": [],
-    "phone_numbers": [
-        "4000002170"
-    ],
-    "addresses": [
-        "Nebraska"
-    ]
-}
+Step 3: Scan for PII
+Click the "Scan for PII" button to detect sensitive information. Results are stored in output.json and displayed in the interface.
 
-Searching for PII in dummy-pii/dummy-PAN-India.jpg
-{
-    "file_path": "dummy-pii/dummy-PAN-India.jpg",
-    "pii_class": "Permanent Account Number",
-    "country_of_origin": "India",
-    "faces": 0,
-    "identifiers": [],
-    "emails": [],
-    "phone_numbers": [],
-    "addresses": [
-        "INDIA"
-    ]
-}
+Step 4: Redact PII
+Click the "Redact PII" button. The application will generate and display the redacted version of the uploaded file.
 
-...
-A file named output.txt is created, containing output from the tool. This file is appended to sequentially in real-time.
+Step 5: View Results
+Both original and redacted images are previewed in the GUI. Redacted files are saved in the same directory.
 
-Working
-Octopii uses Tesseract for Optical Character Recognition (OCR) and NLTK for Natural Language Processing (NLP) to detect for strings of personal identifiable information. This is done via the following steps:
+Notes
+Multiple languages are supported for OCR. Ensure the corresponding .traineddata files are available in your Tesseract installation's tessdata folder.
 
-1. Input and importing
-Octopii scans for images (jpg and png) and documents (pdf, doc, txt etc). It supports 3 sources:
+You can optionally use the webhook feature by providing a URL in the GUI. This allows results to be pushed to an external server.
 
-Amazon Simple Storage Service (S3): traverses the XML from S3 container URLs
-Open directory listing: traverses Apache open directory listings and scans for files
-Local filesystem: can access files and folders within UNIX-like filesystems (macOS and Linux-based operating systems)
-Images are detected via Python Imaging Library (PIL) and are opened with OpenCV. PDFs are converted into a list of images and are scanned via OCR. Text-based file types are read into strings and are scanned without OCR.
+Contributors
+[Your Name]
 
-2. Face detection
-A binary classification image detection technique - known as a "Haar cascade" - is used to detect faces within images. A pre-trained cascade model is supplied in this repo, which contains cascade data for OpenCV to use. Multiple faces can be detected within the same PII image, and the number of faces detected is returned.
-
-3. Cleaning image and reading text
-Images are then "cleaned" for text extraction with the following image transformation steps:
-
-Auto-rotation
-Grayscaling
-Monochrome
-Mean threshold
-Gaussian threshold
-3x Deskewing
-Image filtering illustration
-
-Since these steps strip away image data (including colors in photographs), this image cleaning process occurs after attempting face detection.
-
-4. Optical Character Recognition (OCR)
-Tesseract is used to grab all text strings from an image/file. It is then tokenized into a list of strings, split by newline characters ('\n') and spaces (' '). Garbled text, such as null strings and single characters are discarded from this list, resulting in an 'intelligible' list of potential words.
-
-This list of words is then fed into a similarity checker function. This function uses Gestalt pattern matching to compare each word extracted from the PII document with a list of keywords, present in definitions.json. This check happens once per cleaning. The number of times a word occurs from the keywords list is counted and this is used to derive a confidence score. When a particular definition's keywords appear repeatedly in these scans, that definition gets the highest score and is picked as the predicted PII class.
-
-Octopii also checks for sensitive PII substrings such as emails, phone numbers and common government ID unique identifiers using regular expressions. It can also extract geolocation data such as addresses and countries using Natural Language Processing.
-
-5. Output
-The output consists of the following:
-
-redacted images of the input.
-
+[Teammate's Name]

@@ -31,7 +31,7 @@ Ensure Tesseract is added to your system PATH and the tessdata folder contains n
 
 
 ## Project Structure
-
+```
 AnonyMate/
 ├── octopii.py           # PII detection script
 ├── redact.py            # Redacts detected PII
@@ -42,7 +42,7 @@ AnonyMate/
 ├── text_utils.py        # Regex and text-based scanning
 ├── file_utils.py        # File handling helpers
 ├── requirements.txt     # Dependency list
-
+```
 ## How to Use
 1. Launch the GUI
 
